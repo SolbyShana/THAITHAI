@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thai for Chiang Mai Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Jost:wght@300;400;500;600&family=Noto+Sans+Thai:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blush:#F2E4DC; --rose:#D4A89A; --rose-deep:#B07A6E;
+    --sage:#B5C4B1; --sage-deep:#7A9977;
+    --stone:#C8C0B4; --stone-deep:#8A7F74;
+    --sand:#EDE6DA; --sand-dark:#D9CFBF;
+    --linen:#F7F3EE; --ink:#3A3530; --ink-light:#6B6057;
+    --white:#FDFCFA; --sky:#C5D5D8; --sky-deep:#7FA3A8;
+    --lavender:#D0CCDB; --lav-deep:#8A84A0;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--sand);color:var(--ink);font-family:'Jost',sans-serif;font-size:15px;line-height:1.7;}
+
+  /* HEADER */
+  .header{background:var(--blush);padding:44px 24px 32px;text-align:center;border-bottom:1px solid var(--rose);}
+  .header-ornament{color:var(--rose-deep);font-size:11px;letter-spacing:10px;opacity:0.55;margin-bottom:14px;text-transform:uppercase;font-weight:600;}
+  .header h1{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,7vw,48px);font-weight:600;color:var(--ink);line-height:1.1;}
+  .header h1 em{color:var(--rose-deep);font-style:italic;display:block;}
+  .header-sub{color:var(--ink-light);margin-top:10px;font-weight:300;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;}
+  .thai-script-header{font-family:'Noto Sans Thai',sans-serif;font-size:18px;color:var(--rose-deep);opacity:0.4;margin-top:12px;letter-spacing:4px;}
+
+  /* NAV */
+  .nav{background:var(--white);padding:0 12px;display:flex;overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--sand-dark);position:sticky;top:0;z-index:10;}
+  .nav::-webkit-scrollbar{display:none;}
+  .nav-btn{background:none;border:none;color:var(--ink-light);padding:13px 13px;font-family:'Jost',sans-serif;font-size:11px;font-weight:500;letter-spacing:0.8px;text-transform:uppercase;cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
+  .nav-btn.active{color:var(--rose-deep);border-bottom-color:var(--rose-deep);font-weight:600;}
+  .nav-btn:hover{color:var(--ink);}
+
+  /* SECTIONS */
+  .section{display:none;padding:0 0 60px;}
+  .section.active{display:block;}
+  .section-intro{background:var(--linen);border-bottom:1px solid var(--sand-dark);padding:16px 18px;font-size:13.5px;color:var(--ink-light);line-height:1.75;}
+  .section-intro strong{color:var(--rose-deep);font-weight:600;}
+  h2.section-title{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;padding:20px 18px 6px;color:var(--ink);border-bottom:1px solid var(--sand-dark);}
+  h3.sub-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:2px;color:var(--stone-deep);padding:16px 18px 8px;}
+
+  /* PRONUN KEY */
+  .pronun-key{margin:10px 16px 0;background:var(--lavender);border-radius:12px;padding:13px 15px;font-size:12.5px;color:var(--ink);line-height:1.8;}
+  .pronun-key strong{color:var(--lav-deep);font-weight:600;}
+  .pronun-key .key-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:8px;}
+  .pronun-key .key-item{font-size:12px;color:var(--ink-light);}
+  .pronun-key .key-item span{color:var(--lav-deep);font-weight:600;}
+
+  /* CARDS */
+  .card-grid{padding:12px 16px 0;display:flex;flex-direction:column;gap:10px;}
+  .phrase-card{background:var(--white);border-radius:14px;border-left:3px solid var(--rose);overflow:hidden;box-shadow:0 1px 6px rgba(58,53,48,0.07);}
+  .phrase-card.sage-card{border-left-color:var(--sage-deep);}
+  .phrase-card.sky-card{border-left-color:var(--sky-deep);}
+  .phrase-card.stone-card{border-left-color:var(--stone-deep);}
+  .phrase-card-header{padding:14px 16px 11px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:10px;transition:background 0.15s;}
+  .phrase-card-header:hover{background:var(--linen);}
+  .phrase-label{font-size:9.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--stone-deep);margin-bottom:5px;}
+  .phrase-english{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--ink);line-height:1.25;}
+  .phrase-thai{font-family:'Noto Sans Thai',sans-serif;font-size:20px;color:var(--rose-deep);margin-top:5px;line-height:1.5;}
+  .phrase-card.sage-card .phrase-thai{color:var(--sage-deep);}
+  .phrase-card.sky-card .phrase-thai{color:var(--sky-deep);}
+  .phrase-roman{font-size:13.5px;color:var(--rose-deep);font-weight:500;margin-top:1px;font-style:italic;}
+  .phrase-card.sage-card .phrase-roman{color:var(--sage-deep);}
+  .phrase-card.sky-card .phrase-roman{color:var(--sky-deep);}
+
+  /* PRONUNCIATION PILL */
+  .phrase-pronun{margin-top:7px;display:inline-flex;align-items:center;gap:5px;background:var(--blush);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--rose-deep);font-weight:500;}
+  .phrase-pronun::before{content:'🔊';font-size:10px;}
+  .phrase-card.sage-card .phrase-pronun{background:#EBF0EA;color:var(--sage-deep);}
+  .phrase-card.sky-card .phrase-pronun{background:#E4EEF0;color:var(--sky-deep);}
+  .expand-icon{color:var(--stone);font-size:18px;flex-shrink:0;margin-top:6px;transition:transform 0.2s;line-height:1;}
+  .phrase-card.open .expand-icon{transform:rotate(180deg);}
+  .phrase-detail{display:none;padding:12px 16px 16px;border-top:1px solid var(--sand-dark);}
+  .phrase-card.open .phrase-detail{display:block;}
+  .detail-note{font-size:13px;color:var(--ink-light);margin-bottom:10px;line-height:1.7;}
+
+  .tip-box{background:var(--sand);border-radius:10px;padding:10px 13px;font-size:13px;color:var(--ink);margin-top:10px;border-left:2px solid var(--rose);line-height:1.65;}
+  .tip-box strong{color:var(--rose-deep);}
+  .phrase-card.sage-card .tip-box{border-left-color:var(--sage-deep);}
+  .phrase-card.sage-card .tip-box strong{color:var(--sage-deep);}
+  .phrase-card.sky-card .tip-box{border-left-color:var(--sky-deep);}
+  .phrase-card.sky-card .tip-box strong{color:var(--sky-deep);}
+
+  /* CM TAG */
+  .cm-tag{display:inline-block;background:var(--sage);color:var(--sage-deep);font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+
+  /* VARIATION LIST */
+  .variation-list{margin-top:10px;display:flex;flex-direction:column;gap:7px;}
+  .variation{display:flex;align-items:flex-start;gap:10px;padding:9px 11px;background:var(--linen);border-radius:10px;}
+  .variation-en{font-size:12.5px;color:var(--ink-light);flex:1;line-height:1.5;}
+  .variation-en .cm-note{display:block;font-size:11px;color:var(--sage-deep);font-style:italic;margin-top:1px;}
+  .variation-th{text-align:right;flex-shrink:0;}
+  .variation-th .thai{font-family:'Noto Sans Thai',sans-serif;font-size:16px;color:var(--rose-deep);line-height:1.4;}
+  .variation-th .roman{font-size:12px;color:var(--ink-light);font-style:italic;}
+  .variation-th .pronun-pill{display:block;font-size:10.5px;color:var(--rose-deep);font-weight:500;background:var(--blush);border-radius:10px;padding:1px 6px;margin-top:2px;}
+
+  /* NUMBERS */
+  .number-grid{padding:12px 16px 0;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;}
+  .num-card{background:var(--white);border-radius:12px;padding:13px 8px;text-align:center;box-shadow:0 1px 5px rgba(58,53,48,0.07);border-top:2px solid var(--rose);}
+  .num-card.alt{border-top-color:var(--sage-deep);}
+  .num-card.alt2{border-top-color:var(--sky-deep);}
+  .num-arabic{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--ink);}
+  .num-thai{font-family:'Noto Sans Thai',sans-serif;font-size:17px;color:var(--rose-deep);margin:2px 0 1px;}
+  .num-card.alt .num-thai{color:var(--sage-deep);}
+  .num-card.alt2 .num-thai{color:var(--sky-deep);}
+  .num-roman{font-size:12px;color:var(--ink-light);font-style:italic;font-weight:500;}
+  .num-pronun{font-size:10.5px;color:var(--rose-deep);margin-top:4px;background:var(--blush);border-radius:8px;padding:2px 5px;display:inline-block;}
+  .num-card.alt .num-pronun{color:var(--sage-deep);background:#EBF0EA;}
+  .num-card.alt2 .num-pronun{color:var(--sky-deep);background:#E4EEF0;}
+
+  .pattern-box{margin:12px 16px 0;background:var(--white);border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(58,53,48,0.07);}
+  .pattern-title{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:8px;}
+
+  /* PLAN */
+  .week-block{margin:12px 16px 0;border-radius:14px;overflow:hidden;box-shadow:0 1px 5px rgba(58,53,48,0.07);}
+  .week-header{background:var(--blush);border-bottom:1px solid var(--rose);color:var(--ink);padding:13px 16px;font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;display:flex;align-items:center;gap:10px;}
+  .week-badge{background:var(--rose-deep);color:white;font-family:'Jost',sans-serif;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;letter-spacing:0.5px;text-transform:uppercase;}
+  .week-days{background:var(--white);}
+  .day-row{padding:11px 16px;border-bottom:1px solid var(--linen);display:flex;gap:12px;align-items:flex-start;font-size:13px;}
+  .day-row:last-child{border-bottom:none;}
+  .day-name{font-weight:600;font-size:10.5px;text-transform:uppercase;color:var(--rose-deep);width:34px;flex-shrink:0;padding-top:3px;letter-spacing:0.5px;}
+  .day-focus{font-weight:600;color:var(--ink);font-size:13.5px;margin-bottom:2px;}
+  .day-content{color:var(--ink-light);line-height:1.6;}
+
+  /* SOCIAL */
+  .particle-banner{margin:12px 16px 0;background:var(--blush);border-radius:14px;padding:18px;border:1px solid var(--rose);}
+  .particle-banner h3{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--ink);margin-bottom:8px;}
+  .particle-banner p{font-size:13px;color:var(--ink-light);margin-bottom:10px;line-height:1.7;}
+  .particle-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .particle-card{background:var(--white);border-radius:10px;padding:12px;border:1px solid var(--sand-dark);}
+  .particle-card .thai{font-family:'Noto Sans Thai',sans-serif;font-size:20px;color:var(--rose-deep);}
+  .particle-card .roman{font-size:13px;color:var(--ink-light);font-style:italic;}
+  .particle-card .p-pronun{font-size:11px;color:var(--rose-deep);background:var(--blush);padding:1px 7px;border-radius:10px;margin-top:3px;display:inline-block;}
+  .particle-card .desc{font-size:12px;color:var(--ink-light);margin-top:6px;line-height:1.55;}
+
+  /* TONES */
+  .tone-row{margin:12px 16px 0;background:var(--white);border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(58,53,48,0.07);}
+  .tone-title{font-weight:600;font-size:14px;color:var(--ink);margin-bottom:10px;}
+  .tone-item{display:flex;gap:10px;align-items:flex-start;padding:7px 0;border-bottom:1px solid var(--linen);font-size:13px;}
+  .tone-item:last-child{border-bottom:none;}
+  .tone-mark{font-size:18px;flex-shrink:0;}
+  .tone-name{font-weight:600;width:70px;flex-shrink:0;color:var(--ink);font-size:13px;}
+  .tone-desc{color:var(--ink-light);flex:1;line-height:1.6;}
+
+  /* RESOURCES */
+  .resource-card{margin:10px 16px 0;background:var(--white);border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(58,53,48,0.07);border-left:3px solid var(--sage-deep);}
+  .resource-card.alt{border-left-color:var(--sky-deep);}
+  .resource-card.alt2{border-left-color:var(--rose-deep);}
+  .resource-name{font-family:'Cormorant Garamond',serif;font-size:19px;font-weight:600;color:var(--ink);}
+  .resource-type{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--sage-deep);margin-bottom:6px;}
+  .resource-card.alt .resource-type{color:var(--sky-deep);}
+  .resource-card.alt2 .resource-type{color:var(--rose-deep);}
+  .resource-desc{font-size:13px;color:var(--ink-light);margin:7px 0 8px;line-height:1.7;}
+  .resource-tip{font-size:12.5px;color:var(--sage-deep);font-style:italic;}
+  .resource-card.alt .resource-tip{color:var(--sky-deep);}
+  .resource-card.alt2 .resource-tip{color:var(--rose-deep);}
+
+  /* FOOTER */
+  .footer{background:var(--blush);border-top:1px solid var(--rose);color:var(--ink-light);text-align:center;padding:28px 16px;font-size:12.5px;margin-top:24px;}
+  .footer .thai-big{font-family:'Noto Sans Thai',sans-serif;font-size:22px;color:var(--rose-deep);display:block;margin-bottom:6px;}
+  .footer .pronun-note{font-size:12px;color:var(--stone-deep);font-style:italic;margin-top:4px;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-ornament">✦ &nbsp; Sol Journey &nbsp; ✦</div>
+  <h1>Thai for<em>Chiang Mai Life</em></h1>
+  <p class="header-sub">Markets · Cafés · Daily Life · Northern Thai Notes</p>
+  <div class="thai-script-header">ยินดีต้อนรับ สู่เชียงใหม่</div>
+</div>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showSection('numbers')">🔢 Numbers</button>
+  <button class="nav-btn" onclick="showSection('market')">🥭 Markets</button>
+  <button class="nav-btn" onclick="showSection('food')">🍜 Food & Cafés</button>
+  <button class="nav-btn" onclick="showSection('social')">🙏 Social</button>
+  <button class="nav-btn" onclick="showSection('plan')">📅 Your Plan</button>
+  <button class="nav-btn" onclick="showSection('resources')">📱 Resources</button>
+</nav>
+
+<!-- ====== NUMBERS ====== -->
+<section class="section active" id="numbers">
+  <div class="section-intro"><strong>Start here.</strong> Numbers unlock markets, bills, songthaew prices — everything. Thai numbers follow a beautifully logical pattern: once you see it, you can build any price yourself.</div>
+
+  <div class="pronun-key">
+    <strong>🔊 How to read the pronunciation guides throughout this guide</strong>
+    <p style="margin-top:6px;font-size:12px;color:var(--ink-light);">Each phrase has a 🔊 strip written in plain English sounds — say it like you're just reading English. A few sounds to know:</p>
+    <div class="key-grid">
+      <div class="key-item"><span>ow</span> = rhymes with "cow" (not "low")</div>
+      <div class="key-item"><span>ng</span> at start = hum the "ng" of "sing"</div>
+      <div class="key-item"><span>bp / dt</span> = soft sounds between b/p and d/t</div>
+      <div class="key-item"><span>aa</span> = long "a" — hold it a beat longer</div>
+      <div class="key-item"><span>aw</span> = as in "saw" or "law"</div>
+      <div class="key-item"><span>falling / rising</span> = your voice drops or lifts at end</div>
+    </div>
+  </div>
+
+  <h2 class="section-title">Numbers & Money</h2>
+  <h3 class="sub-title">1–10 First — Say These Until They're Automatic</h3>
+
+  <div class="number-grid">
+    <div class="num-card"><div class="num-arabic">1</div><div class="num-thai">หนึ่ง</div><div class="num-roman">nèung</div><div class="num-pronun">nuhng</div></div>
+    <div class="num-card"><div class="num-arabic">2</div><div class="num-thai">สอง</div><div class="num-roman">sǒng</div><div class="num-pronun">sawng</div></div>
+    <div class="num-card"><div class="num-arabic">3</div><div class="num-thai">สาม</div><div class="num-roman">sǎam</div><div class="num-pronun">saam</div></div>
+    <div class="num-card"><div class="num-arabic">4</div><div class="num-thai">สี่</div><div class="num-roman">sìi</div><div class="num-pronun">see</div></div>
+    <div class="num-card"><div class="num-arabic">5</div><div class="num-thai">ห้า</div><div class="num-roman">hâa</div><div class="num-pronun">haa (drop)</div></div>
+    <div class="num-card"><div class="num-arabic">6</div><div class="num-thai">หก</div><div class="num-roman">hòk</div><div class="num-pronun">hoke</div></div>
+    <div class="num-card"><div class="num-arabic">7</div><div class="num-thai">เจ็ด</div><div class="num-roman">jèt</div><div class="num-pronun">jet</div></div>
+    <div class="num-card"><div class="num-arabic">8</div><div class="num-thai">แปด</div><div class="num-roman">bpàet</div><div class="num-pronun">bpaet</div></div>
+    <div class="num-card"><div class="num-arabic">9</div><div class="num-thai">เก้า</div><div class="num-roman">gâo</div><div class="num-pronun">gow (cow)</div></div>
+    <div class="num-card alt"><div class="num-arabic">10</div><div class="num-thai">สิบ</div><div class="num-roman">sìp</div><div class="num-pronun">sip</div></div>
+    <div class="num-card alt"><div class="num-arabic">20</div><div class="num-thai">ยี่สิบ</div><div class="num-roman">yîi sìp</div><div class="num-pronun">yee-sip</div></div>
+    <div class="num-card alt"><div class="num-arabic">30</div><div class="num-thai">สามสิบ</div><div class="num-roman">sǎam sìp</div><div class="num-pronun">saam-sip</div></div>
+    <div class="num-card alt"><div class="num-arabic">35</div><div class="num-thai">สามสิบห้า</div><div class="num-roman">sǎam sìp hâa</div><div class="num-pronun">saam-sip-haa</div></div>
+    <div class="num-card alt"><div class="num-arabic">50</div><div class="num-thai">ห้าสิบ</div><div class="num-roman">hâa sìp</div><div class="num-pronun">haa-sip</div></div>
+    <div class="num-card alt"><div class="num-arabic">60</div><div class="num-thai">หกสิบ</div><div class="num-roman">hòk sìp</div><div class="num-pronun">hoke-sip</div></div>
+    <div class="num-card alt2"><div class="num-arabic">80</div><div class="num-thai">แปดสิบ</div><div class="num-roman">bpàet sìp</div><div class="num-pronun">bpaet-sip</div></div>
+    <div class="num-card alt2"><div class="num-arabic">100</div><div class="num-thai">ร้อย</div><div class="num-roman">rói</div><div class="num-pronun">roy</div></div>
+    <div class="num-card alt2"><div class="num-arabic">1,000</div><div class="num-thai">พัน</div><div class="num-roman">pan</div><div class="num-pronun">pun</div></div>
+  </div>
+
+  <div class="pattern-box">
+    <div class="pattern-title">🔑 The pattern — build any number</div>
+    <p style="font-size:13px;color:var(--ink-light);margin-bottom:10px;">Just say the tens + units. Completely logical — like English but simpler:</p>
+    <div class="variation-list">
+      <div class="variation">
+        <div class="variation-en">25 baht = twenty + five</div>
+        <div class="variation-th"><div class="thai" style="color:var(--sage-deep)">ยี่สิบห้า บาท</div><div class="roman">yîi sìp hâa bàat</div><div class="pronun-pill" style="color:var(--sage-deep);background:#EBF0EA">yee-sip-haa baat</div></div>
+      </div>
+      <div class="variation">
+        <div class="variation-en">150 baht = one hundred + fifty</div>
+        <div class="variation-th"><div class="thai" style="color:var(--sage-deep)">ร้อยห้าสิบ บาท</div><div class="roman">rói hâa sìp bàat</div><div class="pronun-pill" style="color:var(--sage-deep);background:#EBF0EA">roy-haa-sip baat</div></div>
+      </div>
+      <div class="variation">
+        <div class="variation-en">200 baht = two hundreds</div>
+        <div class="variation-th"><div class="thai" style="color:var(--sage-deep)">สองร้อย บาท</div><div class="roman">sǒng rói bàat</div><div class="pronun-pill" style="color:var(--sage-deep);background:#EBF0EA">sawng-roy baat</div></div>
+      </div>
+    </div>
+    <div class="tip-box" style="border-left-color:var(--sage-deep);"><strong>💡 Market tip:</strong> Vendors often hold up fingers or show you their phone calculator. Just say <em>tâo rài khâ?</em> and let them show you. Understanding the number back will come with practice.</div>
+  </div>
+
+  <h3 class="sub-title">Money Phrases</h3>
+  <div class="card-grid">
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Single most useful phrase</div>
+          <div class="phrase-english">How much?</div>
+          <div class="phrase-thai">เท่าไหร่คะ</div>
+          <div class="phrase-roman">tâo rài khâ?</div>
+          <div class="phrase-pronun">tow-rye kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Point at what you want and say this. <em>Tâo rài</em> = how much. <em>Khâ</em> = polite ending for women (always add this). Locals use it constantly — it's direct and natural.</p>
+        <div class="tip-box"><strong>Chiang Mai note:</strong> You may also hear vendors say <em>thao dai?</em> — same meaning, slight Northern pronunciation. Both are perfect to use.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Buying</div>
+          <div class="phrase-english">I'll take this one</div>
+          <div class="phrase-thai">เอาอันนี้ค่ะ</div>
+          <div class="phrase-roman">ao an níi khâ</div>
+          <div class="phrase-pronun">ow-an-nee kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note"><em>Ao</em> (ow, like "cow") = want / take. This is what Thais actually say — casual, natural, used everywhere. Point and say it.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">That one (further away)</div><div class="variation-th"><div class="thai">เอาอันนั้น</div><div class="roman">ao an nán</div><div class="pronun-pill">ow-an-nun</div></div></div>
+          <div class="variation"><div class="variation-en">No thanks / I don't want it</div><div class="variation-th"><div class="thai">ไม่เอา</div><div class="roman">mâi ao</div><div class="pronun-pill">my-ow</div></div></div>
+          <div class="variation"><div class="variation-en">I'll take two</div><div class="variation-th"><div class="thai">เอาสองอัน</div><div class="roman">ao sǒng an</div><div class="pronun-pill">ow-sawng-an</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Gentle negotiating</div>
+          <div class="phrase-english">Can you come down a little?</div>
+          <div class="phrase-thai">ลดนิดนึงได้ไหมคะ</div>
+          <div class="phrase-roman">lót nít neung dâi mǎi khâ?</div>
+          <div class="phrase-pronun">lote-nit-neung-dye-my kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note"><em>Lót</em> = reduce. <em>Nít neung</em> = a tiny bit. This softer version is more natural than just <em>lót dâi mǎi</em> — the <em>nít neung</em> (just a tiny bit) shows you're being gentle, not aggressive. Night markets and Warorot — yes. Food stalls and convenience stores — no.</p>
+        <div class="tip-box"><strong>Always smile.</strong> The worst answer is <em>mâi dâi</em> (can't) — just smile and say <em>mâi bpen rai</em> (no problem) and move on.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Paying</div>
+          <div class="phrase-english">Bill please</div>
+          <div class="phrase-thai">เก็บด้วยนะคะ</div>
+          <div class="phrase-roman">gèp dûay ná khâ</div>
+          <div class="phrase-pronun">gep-doo-ay na kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Literally "collect (the money) please." This is what locals actually say — more natural than <em>chék bin</em> (check bin). The <em>ná</em> makes it warm and friendly rather than abrupt.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Check bin (also used, more formal)</div><div class="variation-th"><div class="thai">เช็คบิลด้วย</div><div class="roman">chék bin dûay</div><div class="pronun-pill">chek-bin-doo-ay</div></div></div>
+          <div class="variation"><div class="variation-en">Keep the change</div><div class="variation-th"><div class="thai">ไม่ต้องทอน</div><div class="roman">mâi dtông tɔɔn</div><div class="pronun-pill">my-dtong-tawn</div></div></div>
+          <div class="variation"><div class="variation-en">Do you have change for 1000?</div><div class="variation-th"><div class="thai">มีทอนพันไหมคะ</div><div class="roman">mii tɔɔn pan mǎi khâ?</div><div class="pronun-pill">mee-tawn-pun-my kaa</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== MARKET ====== -->
+<section class="section" id="market">
+  <div class="section-intro"><strong>Warorot (Kad Luang), Sunday Walking Street, your local talaat</strong> — these phrases get you through any Chiang Mai market. You know ไก่ gài and หมู mǔu — let's build from there.</div>
+
+  <div class="pronun-key">
+    <strong>🌸 Chiang Mai market note:</strong> Northern vendors may have a slight Lanna accent — vowels can sound slightly rounder. Don't worry, they understand all Thai accents perfectly and will love that you're trying.
+  </div>
+
+  <h2 class="section-title">Markets & Shopping</h2>
+  <h3 class="sub-title">Fruits You'll Actually Buy</h3>
+  <div class="card-grid">
+
+    <div class="phrase-card sage-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Fruit vocabulary</div>
+          <div class="phrase-english">Common fruits at Chiang Mai markets</div>
+          <div class="phrase-thai">ผลไม้</div>
+          <div class="phrase-roman">pǒn-la-mái</div>
+          <div class="phrase-pronun">pon-la-my (fruit)</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Mango</div><div class="variation-th"><div class="thai">มะม่วง</div><div class="roman">ma-mûang</div><div class="pronun-pill">ma-moo-ang</div></div></div>
+          <div class="variation"><div class="variation-en">Papaya</div><div class="variation-th"><div class="thai">มะละกอ</div><div class="roman">ma-la-gɔɔ</div><div class="pronun-pill">ma-la-gaw</div></div></div>
+          <div class="variation"><div class="variation-en">Watermelon</div><div class="variation-th"><div class="thai">แตงโม</div><div class="roman">dtaeng moo</div><div class="pronun-pill">dtaeng-moo</div></div></div>
+          <div class="variation"><div class="variation-en">Banana</div><div class="variation-th"><div class="thai">กล้วย</div><div class="roman">glûay</div><div class="pronun-pill">gloo-ay</div></div></div>
+          <div class="variation"><div class="variation-en">Pineapple</div><div class="variation-th"><div class="thai">สับปะรด</div><div class="roman">sàp-bpa-rót</div><div class="pronun-pill">sup-pa-rot</div></div></div>
+          <div class="variation">
+            <div class="variation-en">Longan <span class="cm-note">☆ CM's most famous fruit — June to August season</span></div>
+            <div class="variation-th"><div class="thai">ลำไย</div><div class="roman">lam-yai</div><div class="pronun-pill">lum-yai</div></div>
+          </div>
+          <div class="variation"><div class="variation-en">Lychee</div><div class="variation-th"><div class="thai">ลิ้นจี่</div><div class="roman">lín-jìi</div><div class="pronun-pill">lin-jee</div></div></div>
+          <div class="variation"><div class="variation-en">Dragon fruit</div><div class="variation-th"><div class="thai">แก้วมังกร</div><div class="roman">gâew mang-gɔɔn</div><div class="pronun-pill">gaew-mung-gawn</div></div></div>
+          <div class="variation"><div class="variation-en">Passionfruit</div><div class="variation-th"><div class="thai">เสาวรส</div><div class="roman">sǎo-wá-rót</div><div class="pronun-pill">sow-wa-rot</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-card sage-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Vegetable vocabulary</div>
+          <div class="phrase-english">Vegetables & herbs you'll use</div>
+          <div class="phrase-thai">ผัก</div>
+          <div class="phrase-roman">pàk</div>
+          <div class="phrase-pronun">pak (vegetables)</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation">
+            <div class="variation-en">Water spinach / Morning glory <span class="cm-note">(very common stir-fried)</span></div>
+            <div class="variation-th"><div class="thai">ผักบุ้ง</div><div class="roman">pàk bûng</div><div class="pronun-pill">pak-bung</div></div>
+          </div>
+          <div class="variation"><div class="variation-en">Chilli</div><div class="variation-th"><div class="thai">พริก</div><div class="roman">prík</div><div class="pronun-pill">prik</div></div></div>
+          <div class="variation"><div class="variation-en">Garlic</div><div class="variation-th"><div class="thai">กระเทียม</div><div class="roman">gra-tiam</div><div class="pronun-pill">gra-tee-am</div></div></div>
+          <div class="variation"><div class="variation-en">Ginger</div><div class="variation-th"><div class="thai">ขิง</div><div class="roman">kǐng</div><div class="pronun-pill">king</div></div></div>
+          <div class="variation">
+            <div class="variation-en">Galangal <span class="cm-note">(like ginger — core Northern ingredient)</span></div>
+            <div class="variation-th"><div class="thai">ข่า</div><div class="roman">khàa</div><div class="pronun-pill">khaa</div></div>
+          </div>
+          <div class="variation"><div class="variation-en">Lemongrass</div><div class="variation-th"><div class="thai">ตะไคร้</div><div class="roman">dtà-krái</div><div class="pronun-pill">dta-kry</div></div></div>
+          <div class="variation"><div class="variation-en">Lime</div><div class="variation-th"><div class="thai">มะนาว</div><div class="roman">ma-naao</div><div class="pronun-pill">ma-now</div></div></div>
+          <div class="variation"><div class="variation-en">Coriander / cilantro</div><div class="variation-th"><div class="thai">ผักชี</div><div class="roman">pàk chii</div><div class="pronun-pill">pak-chee</div></div></div>
+          <div class="variation"><div class="variation-en">Cucumber</div><div class="variation-th"><div class="thai">แตงกวา</div><div class="roman">dtaeng gwaa</div><div class="pronun-pill">dtaeng-gwaa</div></div></div>
+          <div class="variation"><div class="variation-en">Tomato</div><div class="variation-th"><div class="thai">มะเขือเทศ</div><div class="roman">ma-kǔea-têet</div><div class="pronun-pill">ma-koo-a-teet</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-card sage-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Buying quantities</div>
+          <div class="phrase-english">How many kilos / bags?</div>
+          <div class="phrase-thai">กี่กิโล / กี่ถุง</div>
+          <div class="phrase-roman">gìi ki-loo / gìi tǔng</div>
+          <div class="phrase-pronun">gee-ki-lo / gee-tung</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Vendors may ask you this. Hold up fingers if needed — completely normal and welcome.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">One kilo</div><div class="variation-th"><div class="thai">หนึ่งกิโล</div><div class="roman">nèung ki-loo</div><div class="pronun-pill">nuhng-ki-lo</div></div></div>
+          <div class="variation"><div class="variation-en">Half a kilo</div><div class="variation-th"><div class="thai">ครึ่งกิโล</div><div class="roman">krêung ki-loo</div><div class="pronun-pill">krueng-ki-lo</div></div></div>
+          <div class="variation"><div class="variation-en">One bag please</div><div class="variation-th"><div class="thai">เอาหนึ่งถุงนะคะ</div><div class="roman">ao nèung tǔng ná khâ</div><div class="pronun-pill">ow-nuhng-tung-na-kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Just a little bit</div><div class="variation-th"><div class="thai">นิดหน่อยพอ</div><div class="roman">nít nòi pɔɔ</div><div class="pronun-pill">nit-noy-paw</div></div></div>
+        </div>
+        <div class="tip-box"><strong>💡 Real tip:</strong> For herbs, chilli, limes — vendors sell by the bag (<em>tǔng</em>), not by weight. Point and say <em>ao nèung tǔng ná khâ</em>.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card sage-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">The phrases vendors love</div>
+          <div class="phrase-english">Is it sweet? Is it ripe?</div>
+          <div class="phrase-thai">หวานไหมคะ / สุกไหมคะ</div>
+          <div class="phrase-roman">wǎan mǎi khâ? / sùk mǎi khâ?</div>
+          <div class="phrase-pronun">waan-my kaa / sook-my kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">These are what Thai shoppers actually ask — natural, warm, and they show you know what you're doing. Vendors will often hand-pick the best piece for you once you ask.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Very sweet! Delicious!</div><div class="variation-th"><div class="thai">หวานมากเลย</div><div class="roman">wǎan mâak loei</div><div class="pronun-pill">waan-maak-loey</div></div></div>
+          <div class="variation"><div class="variation-en">I want a sweet one please</div><div class="variation-th"><div class="thai">ขอหวานๆ หน่อยนะคะ</div><div class="roman">kɔ̌ɔ wǎan wǎan nòi ná khâ</div><div class="pronun-pill">kor-waan-waan-noy-na-kaa</div></div></div>
+          <div class="variation">
+            <div class="variation-en">Not too ripe <span class="cm-note">(good for green mango / papaya salad)</span></div>
+            <div class="variation-th"><div class="thai">ดิบหน่อยนะ</div><div class="roman">dìp nòi ná</div><div class="pronun-pill">dip-noy-na</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FOOD & CAFES ====== -->
+<section class="section" id="food">
+  <div class="section-intro"><strong>This is where you'll use Thai every single day.</strong> Ordering food, customising drinks — plus Chiang Mai–specific dishes you won't find in Bangkok. Even imperfect Thai here gets huge warmth back.</div>
+
+  <div class="pronun-key">
+    <strong>🍜 Chiang Mai has its own dishes:</strong> Khao soi (coconut curry noodle soup), sai ua (Northern sausage), nam prik ong (tomato pork dip), kâao nǐao (sticky rice — the Northern staple eaten by hand). Worth knowing by name.
+  </div>
+
+  <h2 class="section-title">Food & Café Ordering</h2>
+  <h3 class="sub-title">The Core Ordering Framework</h3>
+  <div class="card-grid">
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Order anything</div>
+          <div class="phrase-english">Can I get a... please</div>
+          <div class="phrase-thai">ขอ... หน่อยนะคะ</div>
+          <div class="phrase-roman">kɔ̌ɔ ... nòi ná khâ</div>
+          <div class="phrase-pronun">kor ... noy-na kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note"><em>Kɔ̌ɔ</em> (kor) = "may I have." <em>Nòi</em> softens it. <em>Ná</em> makes it warm rather than blunt. This is the real template — natural and used by Thais constantly.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">One pad thai please</div><div class="variation-th"><div class="thai">ขอผัดไทยหนึ่งจานหน่อยนะ</div><div class="roman">kɔ̌ɔ pàt tai nèung jaan nòi ná</div><div class="pronun-pill">kor-pat-tie nuhng-jaan noy-na</div></div></div>
+          <div class="variation"><div class="variation-en">One coffee please</div><div class="variation-th"><div class="thai">ขอกาแฟหน่อยนะคะ</div><div class="roman">kɔ̌ɔ gaa-fae nòi ná khâ</div><div class="pronun-pill">kor-gaa-fae noy-na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">One khao soi please</div><div class="variation-th"><div class="thai">ขอข้าวซอยหนึ่งหน่อยนะ</div><div class="roman">kɔ̌ɔ kâao soi nèung nòi ná</div><div class="pronun-pill">kor-kao-soy nuhng noy-na</div></div></div>
+          <div class="variation"><div class="variation-en">One more of the same please</div><div class="variation-th"><div class="thai">ขออีกอันนะคะ</div><div class="roman">kɔ̌ɔ ìik an ná khâ</div><div class="pronun-pill">kor-eek-an na kaa</div></div></div>
+        </div>
+        <div class="tip-box"><strong>Formula:</strong> ขอ + [what you want] + [number] + หน่อยนะคะ. Point at the menu if needed — they'll understand.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Spice level</div>
+          <div class="phrase-english">Spicy levels — your daily must-have</div>
+          <div class="phrase-thai">เผ็ด / ไม่เผ็ด / เผ็ดนิดเดียว</div>
+          <div class="phrase-roman">pèt / mâi pèt / pèt nít diaw</div>
+          <div class="phrase-pronun">pet / my-pet / pet-nit-dee-ow</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Not spicy at all</div><div class="variation-th"><div class="thai">ไม่เผ็ดเลยนะคะ</div><div class="roman">mâi pèt loei ná khâ</div><div class="pronun-pill">my-pet-loey na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">A tiny bit of spice</div><div class="variation-th"><div class="thai">เผ็ดนิดเดียวพอ</div><div class="roman">pèt nít diaw pɔɔ</div><div class="pronun-pill">pet-nit-dee-ow paw</div></div></div>
+          <div class="variation"><div class="variation-en">Medium spicy</div><div class="variation-th"><div class="thai">เผ็ดกลางๆ</div><div class="roman">pèt glaang glaang</div><div class="pronun-pill">pet-glaang-glaang</div></div></div>
+          <div class="variation"><div class="variation-en">Very spicy (if you dare!)</div><div class="variation-th"><div class="thai">เผ็ดมากๆ เลย</div><div class="roman">pèt mâak mâak loei</div><div class="pronun-pill">pet-maak-maak-loey</div></div></div>
+          <div class="variation"><div class="variation-en">Just one chilli only</div><div class="variation-th"><div class="thai">ใส่พริกแค่เม็ดเดียวนะ</div><div class="roman">sài prík kâe mét diaw ná</div><div class="pronun-pill">sye-prik-kae-met-dee-ow na</div></div></div>
+          <div class="variation"><div class="variation-en">No chilli at all please</div><div class="variation-th"><div class="thai">ไม่ใส่พริกเลยนะคะ</div><div class="roman">mâi sài prík loei ná khâ</div><div class="pronun-pill">my-sye-prik-loey na kaa</div></div></div>
+        </div>
+        <div class="tip-box"><strong>🌶️ Honest note:</strong> Even <em>mâi pèt</em> can come spicy — chefs vary. Holding up one finger while saying <em>pèt nít diaw</em> helps a lot. Northern Thai food (like nam prik dishes) is generally milder than Central or Southern Thai.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Customising food</div>
+          <div class="phrase-english">More / Less / Without</div>
+          <div class="phrase-thai">เพิ่ม / น้อย / ไม่ใส่</div>
+          <div class="phrase-roman">pêrm / nói / mâi sài</div>
+          <div class="phrase-pronun">perm / noy / my-sye</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Three words that unlock every food modification. Say the word + the ingredient. Point at it if needed.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Extra meat please</div><div class="variation-th"><div class="thai">เพิ่มเนื้อหน่อยนะ</div><div class="roman">pêrm néua nòi ná</div><div class="pronun-pill">perm-new-a noy-na</div></div></div>
+          <div class="variation"><div class="variation-en">Less rice please</div><div class="variation-th"><div class="thai">ข้าวน้อยๆ นะ</div><div class="roman">kâao nói nói ná</div><div class="pronun-pill">kao-noy-noy na</div></div></div>
+          <div class="variation"><div class="variation-en">No rice please</div><div class="variation-th"><div class="thai">ไม่เอาข้าวนะคะ</div><div class="roman">mâi ao kâao ná khâ</div><div class="pronun-pill">my-ow-kao na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Without sugar</div><div class="variation-th"><div class="thai">ไม่ใส่น้ำตาล</div><div class="roman">mâi sài nám dtaan</div><div class="pronun-pill">my-sye-nam-dtaan</div></div></div>
+          <div class="variation"><div class="variation-en">Extra vegetables</div><div class="variation-th"><div class="thai">เพิ่มผักด้วยนะ</div><div class="roman">pêrm pàk dûay ná</div><div class="pronun-pill">perm-pak-doo-ay na</div></div></div>
+          <div class="variation"><div class="variation-en">Less oil please</div><div class="variation-th"><div class="thai">น้ำมันน้อยๆ นะคะ</div><div class="roman">nám man nói nói ná khâ</div><div class="pronun-pill">nam-mun-noy-noy na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">No MSG please</div><div class="variation-th"><div class="thai">ไม่ใส่ผงชูรสนะคะ</div><div class="roman">mâi sài pǒng chuu rót ná khâ</div><div class="pronun-pill">my-sye-pong-choo-rot na kaa</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Café & drinks</div>
+          <div class="phrase-english">Sweet / less sweet / no sugar / milk options</div>
+          <div class="phrase-thai">หวาน / หวานน้อย / ไม่หวาน</div>
+          <div class="phrase-roman">wǎan / wǎan nói / mâi wǎan</div>
+          <div class="phrase-pronun">waan / waan-noy / my-waan</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Thai drinks are very sweet by default — condensed milk is standard. Chiang Mai has a huge specialty café scene and baristas are used to custom orders in any language.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Less sweet please</div><div class="variation-th"><div class="thai">หวานน้อยหน่อยนะคะ</div><div class="roman">wǎan nói nòi ná khâ</div><div class="pronun-pill">waan-noy-noy na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Not sweet at all</div><div class="variation-th"><div class="thai">ไม่หวานเลยนะ</div><div class="roman">mâi wǎan loei ná</div><div class="pronun-pill">my-waan-loey na</div></div></div>
+          <div class="variation"><div class="variation-en">No condensed milk please</div><div class="variation-th"><div class="thai">ไม่ใส่นมข้นนะคะ</div><div class="roman">mâi sài nom kôn ná khâ</div><div class="pronun-pill">my-sye-nom-kon na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Oat milk</div><div class="variation-th"><div class="thai">นมโอ๊ต</div><div class="roman">nom ôht</div><div class="pronun-pill">nom-oht</div></div></div>
+          <div class="variation"><div class="variation-en">Almond milk</div><div class="variation-th"><div class="thai">นมอัลมอนด์</div><div class="roman">nom an-mon</div><div class="pronun-pill">nom-an-mon</div></div></div>
+          <div class="variation"><div class="variation-en">Soy milk</div><div class="variation-th"><div class="thai">นมถั่วเหลือง</div><div class="roman">nom tùa lèuang</div><div class="pronun-pill">nom-tua-luang</div></div></div>
+          <div class="variation"><div class="variation-en">No ice</div><div class="variation-th"><div class="thai">ไม่ใส่น้ำแข็งนะ</div><div class="roman">mâi sài nám kǎeng ná</div><div class="pronun-pill">my-sye-nam-kaeng na</div></div></div>
+          <div class="variation"><div class="variation-en">Less ice</div><div class="variation-th"><div class="thai">น้ำแข็งน้อยนะ</div><div class="roman">nám kǎeng nói ná</div><div class="pronun-pill">nam-kaeng-noy na</div></div></div>
+          <div class="variation"><div class="variation-en">Hot please</div><div class="variation-th"><div class="thai">เอาร้อนนะคะ</div><div class="roman">ao rón ná khâ</div><div class="pronun-pill">ow-ron na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Iced / cold please</div><div class="variation-th"><div class="thai">เอาเย็นนะคะ</div><div class="roman">ao yen ná khâ</div><div class="pronun-pill">ow-yen na kaa</div></div></div>
+        </div>
+        <div class="tip-box"><strong>☕ CM café tip:</strong> Saying <em>wǎan nói</em> or <em>nom ôht</em> with a smile always gets a warm response — and often a better pour. Chiang Mai baristas appreciate the effort.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Key food vocab</div>
+          <div class="phrase-english">Proteins, rice & noodles</div>
+          <div class="phrase-thai">เนื้อ / ปลา / กุ้ง / ข้าว / เส้น</div>
+          <div class="phrase-roman">néua / bplaa / gûng / kâao / sên</div>
+          <div class="phrase-pronun">new-a / bplaa / goong / kao / sen</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Chicken (you know this!)</div><div class="variation-th"><div class="thai">ไก่</div><div class="roman">gài</div><div class="pronun-pill">gye</div></div></div>
+          <div class="variation"><div class="variation-en">Pork (you know this!)</div><div class="variation-th"><div class="thai">หมู</div><div class="roman">mǔu</div><div class="pronun-pill">moo</div></div></div>
+          <div class="variation"><div class="variation-en">Beef</div><div class="variation-th"><div class="thai">เนื้อวัว</div><div class="roman">néua wua</div><div class="pronun-pill">new-a-woo-a</div></div></div>
+          <div class="variation"><div class="variation-en">Fish</div><div class="variation-th"><div class="thai">ปลา</div><div class="roman">bplaa</div><div class="pronun-pill">bplaa</div></div></div>
+          <div class="variation"><div class="variation-en">Prawn</div><div class="variation-th"><div class="thai">กุ้ง</div><div class="roman">gûng</div><div class="pronun-pill">goong</div></div></div>
+          <div class="variation"><div class="variation-en">Tofu</div><div class="variation-th"><div class="thai">เต้าหู้</div><div class="roman">dtâo-hûu</div><div class="pronun-pill">dtow-hoo</div></div></div>
+          <div class="variation"><div class="variation-en">Egg</div><div class="variation-th"><div class="thai">ไข่</div><div class="roman">kài</div><div class="pronun-pill">kye</div></div></div>
+          <div class="variation"><div class="variation-en">Rice (steamed)</div><div class="variation-th"><div class="thai">ข้าวสวย</div><div class="roman">kâao sǔay</div><div class="pronun-pill">kao-soo-ay</div></div></div>
+          <div class="variation">
+            <div class="variation-en">Sticky rice <span class="cm-note">☆ Northern staple — eaten by hand, comes in a bamboo basket</span></div>
+            <div class="variation-th"><div class="thai">ข้าวเหนียว</div><div class="roman">kâao nǐao</div><div class="pronun-pill">kao-nee-ow</div></div>
+          </div>
+          <div class="variation"><div class="variation-en">Noodles (general)</div><div class="variation-th"><div class="thai">เส้น</div><div class="roman">sên</div><div class="pronun-pill">sen</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== SOCIAL ====== -->
+<section class="section" id="social">
+  <div class="section-intro"><strong>Thai culture runs on warmth, respect, and reading the room.</strong> These phrases cover your yoga teacher, condo agent, market vendors — plus key Northern Thai social notes that matter specifically in Chiang Mai.</div>
+
+  <h2 class="section-title">Social & Everyday Life</h2>
+
+  <div class="particle-banner">
+    <h3>The single most important thing to learn: ค่ะ</h3>
+    <p>Add this to the end of almost everything you say as a woman. It signals respect and warmth — using it alone will open more doors than any other vocabulary. It also means "yes" on its own when someone asks you something.</p>
+    <div class="particle-row">
+      <div class="particle-card">
+        <div class="thai">ค่ะ</div>
+        <div class="roman">khâ</div>
+        <div class="p-pronun">kaa (voice falls)</div>
+        <div class="desc">For statements and at end of sentences. Your voice drops slightly. "Yes" on its own.</div>
+      </div>
+      <div class="particle-card">
+        <div class="thai">คะ</div>
+        <div class="roman">khá</div>
+        <div class="p-pronun">ka (voice rises)</div>
+        <div class="desc">For questions only. Voice lifts at end. "Really?" / "Oh yes?"</div>
+      </div>
+    </div>
+    <div class="tip-box" style="margin-top:12px;background:rgba(255,255,255,0.6);">
+      <strong>🌸 Chiang Mai local note:</strong> Locals here often use <em>jâo</em> (จ้าว) — a Northern Thai / Kham Mueang polite particle — instead of ค่ะ/ครับ. You'll hear it constantly. You don't need to use it yourself, but when you hear it, it's always friendly and warm.
+    </div>
+  </div>
+
+  <h3 class="sub-title">Greetings & Addressing People Correctly</h3>
+  <div class="card-grid">
+
+    <div class="phrase-card sky-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">You already know this!</div>
+          <div class="phrase-english">Hello / Good day</div>
+          <div class="phrase-thai">สวัสดีค่ะ</div>
+          <div class="phrase-roman">sa-wàt-dii khâ</div>
+          <div class="phrase-pronun">sa-wat-dee kaa</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Works any time of day. Add ค่ะ as a woman. The wai (palms together, slight bow of the head) accompanies this in any respectful setting.</p>
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">Goodbye (warm, casual — to someone staying)</div><div class="variation-th"><div class="thai">แล้วเจอกันนะ</div><div class="roman">láew joer gan ná</div><div class="pronun-pill">laew-jer-gun na</div></div></div>
+          <div class="variation"><div class="variation-en">Take care / travel safely</div><div class="variation-th"><div class="thai">เดินทางปลอดภัยนะคะ</div><div class="roman">dern taang bplɔ̀ɔt pai ná khâ</div><div class="pronun-pill">dern-taang-bplawt-pay na kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Thank you very much</div><div class="variation-th"><div class="thai">ขอบคุณมากนะคะ</div><div class="roman">kɔ̀op khun mâak ná khâ</div><div class="pronun-pill">kawp-khoon-maak na kaa</div></div></div>
+        </div>
+        <div class="tip-box"><strong>Wai etiquette:</strong> Always return a wai if someone gives you one. For your yoga teacher — a proper wai with head bow shows real respect. For shops and strangers — a warm smile and small nod is perfectly fine.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card sky-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Social system — learn these three</div>
+          <div class="phrase-english">Pee / Nong / Khun</div>
+          <div class="phrase-thai">พี่ / น้อง / คุณ</div>
+          <div class="phrase-roman">pîi / nóng / khun</div>
+          <div class="phrase-pronun">pee / nong / khoon</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <p class="detail-note">Not just family terms — the everyday relational system. Using these correctly immediately shows cultural awareness and creates warmth.</p>
+        <div class="variation-list">
+          <div class="variation">
+            <div class="variation-en"><strong>พี่ Pee</strong> — older or senior to you. Your yoga teacher, older vendors, anyone senior. Say "Pee [name]" with a wai.</div>
+            <div class="variation-th"><div class="thai">พี่</div><div class="roman">pîi</div><div class="pronun-pill">pee</div></div>
+          </div>
+          <div class="variation">
+            <div class="variation-en"><strong>น้อง Nong</strong> — younger than you. Younger service staff, younger vendors. Warm and friendly.</div>
+            <div class="variation-th"><div class="thai">น้อง</div><div class="roman">nóng</div><div class="pronun-pill">nong</div></div>
+          </div>
+          <div class="variation">
+            <div class="variation-en"><strong>คุณ Khun</strong> — professional settings. Condo agent, office, admin. Always safe. Like Mr/Ms.</div>
+            <div class="variation-th"><div class="thai">คุณ</div><div class="roman">khun</div><div class="pronun-pill">khoon</div></div>
+          </div>
+          <div class="variation">
+            <div class="variation-en">Uncle / Auntie — much older people in markets, very warm</div>
+            <div class="variation-th"><div class="thai">ลุง / ป้า</div><div class="roman">lung / bpâa</div><div class="pronun-pill">lung / bpaa</div></div>
+          </div>
+        </div>
+        <div class="tip-box"><strong>🧘 For your yoga teacher:</strong> "Pee [name] khâ" — warm, respectful, completely natural in a yoga / wellness setting in Thailand.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card sky-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">Daily warmth</div>
+          <div class="phrase-english">Delicious / No problem / Thank you so much</div>
+          <div class="phrase-thai">อร่อยมาก / ไม่เป็นไร / ขอบคุณมาก</div>
+          <div class="phrase-roman">a-rɔ̀i mâak / mâi bpen rai / kɔ̀op khun mâak</div>
+          <div class="phrase-pronun">a-roy-maak / my-bpen-rye / kawp-khoon-maak</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">So delicious! (use freely, everywhere)</div><div class="variation-th"><div class="thai">อร่อยมากเลยค่ะ</div><div class="roman">a-rɔ̀i mâak loei khâ</div><div class="pronun-pill">a-roy-maak-loey kaa</div></div></div>
+          <div class="variation"><div class="variation-en">No problem / nevermind / it's fine</div><div class="variation-th"><div class="thai">ไม่เป็นไร</div><div class="roman">mâi bpen rai</div><div class="pronun-pill">my-bpen-rye</div></div></div>
+          <div class="variation"><div class="variation-en">I really like it here</div><div class="variation-th"><div class="thai">ชอบมากเลยค่ะ</div><div class="roman">chɔ̂op mâak loei khâ</div><div class="pronun-pill">chawp-maak-loey kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Chiang Mai is so beautiful</div><div class="variation-th"><div class="thai">เชียงใหม่สวยมากเลย</div><div class="roman">chiang mài sǔay mâak loei</div><div class="pronun-pill">chee-ang-my soo-ay-maak-loey</div></div></div>
+          <div class="variation"><div class="variation-en">I'm still learning Thai</div><div class="variation-th"><div class="thai">กำลังเรียนภาษาไทยอยู่ค่ะ</div><div class="roman">gam-lang rian paa-sǎa tai yùu khâ</div><div class="pronun-pill">gum-lung-ree-an-paa-saa-tie yoo kaa</div></div></div>
+        </div>
+        <div class="tip-box"><strong>🌺 Cultural gold:</strong> <em>Mâi bpen rai</em> is Thai philosophy in three words — "it doesn't matter / no worries / let it go." You'll hear it constantly in Chiang Mai. Use it generously.</div>
+      </div>
+    </div>
+
+    <div class="phrase-card sky-card" onclick="toggleCard(this)">
+      <div class="phrase-card-header">
+        <div>
+          <div class="phrase-label">When you don't understand</div>
+          <div class="phrase-english">Please speak slowly / I don't understand</div>
+          <div class="phrase-thai">พูดช้าๆ หน่อยได้ไหมคะ / ไม่เข้าใจ</div>
+          <div class="phrase-roman">pûut cháa cháa nòi dâi mǎi khá? / mâi kâo jai</div>
+          <div class="phrase-pronun">poot-chaa-chaa-noy-dye-my ka / my-kow-jai</div>
+        </div>
+        <div class="expand-icon">▾</div>
+      </div>
+      <div class="phrase-detail">
+        <div class="variation-list">
+          <div class="variation"><div class="variation-en">I understand now</div><div class="variation-th"><div class="thai">เข้าใจแล้วค่ะ</div><div class="roman">kâo jai láew khâ</div><div class="pronun-pill">kow-jai-laew kaa</div></div></div>
+          <div class="variation"><div class="variation-en">Can you say that again?</div><div class="variation-th"><div class="thai">พูดอีกทีได้ไหมคะ</div><div class="roman">pûut ìik tii dâi mǎi khá?</div><div class="pronun-pill">poot-eek-tee-dye-my ka</div></div></div>
+          <div class="variation"><div class="variation-en">I speak a little Thai</div><div class="variation-th"><div class="thai">พูดภาษาไทยได้นิดหน่อย</div><div class="roman">pûut paa-sǎa tai dâi nít nòi</div><div class="pronun-pill">poot-paa-saa-tie-dye nit-noy</div></div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h3 class="sub-title">Tones — The Quick Guide</h3>
+  <div class="tone-row">
+    <div class="tone-title">Thai has 5 tones — don't panic. Focus on these patterns first.</div>
+    <div class="tone-item"><span class="tone-mark">➡️</span><span class="tone-name">Mid</span><span class="tone-desc">Flat — no movement at all. Many common words. Relax your voice.</span></div>
+    <div class="tone-item"><span class="tone-mark">📉</span><span class="tone-name">Low</span><span class="tone-desc">Slightly lower than normal. <em>Mâi</em> (not) — say it a touch low and steady.</span></div>
+    <div class="tone-item"><span class="tone-mark">📈</span><span class="tone-name">Rising</span><span class="tone-desc">Start low, go up — like asking a question. <em>Mǎi</em> (question word) goes up at the end.</span></div>
+    <div class="tone-item"><span class="tone-mark">🔻</span><span class="tone-name">Falling</span><span class="tone-desc">Start higher, drop fast. <em>Khâ</em> (women's particle) — say it and let your voice fall.</span></div>
+    <div class="tone-item"><span class="tone-mark">🔼</span><span class="tone-name">High</span><span class="tone-desc">Higher pitch, hold it. Stretched and bright — like <em>máa</em> (but context will usually save you!).</span></div>
+    <div class="tip-box" style="margin-top:12px;border-left-color:var(--sky-deep);"><strong>Real talk:</strong> Tones matter, but context + smiling + trying = locals will understand you. You'll absorb tones naturally just from listening. Don't let tone anxiety stop you from speaking.</div>
+  </div>
+</section>
+
+<!-- ====== PLAN ====== -->
+<section class="section" id="plan">
+  <div class="section-intro"><strong>15 minutes a day, 5–6 days a week.</strong> Built around your actual Chiang Mai life — markets in the morning, cafés, yoga, daily errands. Every week builds directly on real situations you're already in.</div>
+  <h2 class="section-title">Your 6-Week Learning Plan</h2>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 1</span> Numbers & Money</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Numbers 1–10</div>Use the pronunciation guides. Say each one 5x aloud. Goal: any number 1–10 without thinking.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">Numbers 10–100 (tens pattern)</div>Learn the pattern: [number] + sìp. Say yee-sip, saam-sip, see-sip... up to haa-sip. Aloud.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Money phrases</div>Tow-rye khâ · ow-an-nee khâ · gep-doo-ay na khâ. Go to a café or market and use one today.</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Prices in context</div>Practice real prices: 25, 60, 120, 350 baht. Say them aloud as if handing over money.</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">Real world — market or street food</div>Ask tow-rye khâ? for something. Try to understand the answer. Smile whatever happens.</div></div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 2</span> Café & Drink Orders</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Sweet & spice scale</div>Learn: my-waan · waan-noy · my-pet · pet-nit-dee-ow. Practice your typical café order out loud.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">Milk & ice vocab</div>Nom-oht · nom-tua-luang · my-sye-nam-kaeng · ron vs yen. Build your real usual order in Thai.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Full café order practice</div>Say your go-to order in Thai from start to finish: ขอกาแฟร้อน นมโอ๊ต ไม่หวานเลยนะคะ</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Polite particles</div>Add ค่ะ / นะคะ to everything you know. Notice how it changes the warmth of what you say.</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">Café challenge</div>Order your entire coffee in Thai today. Watch the barista's face — it will be good.</div></div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 3</span> Food Ordering</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Proteins + rice + noodles</div>Gye · moo · new-a-woo-a · goong · bplaa · kao · kao-nee-ow · sen. Make Quizlet flashcards.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">The kor ordering formula</div>Kor + [dish] + [number] + noy-na khâ. Build 5 sentences for your most-ordered meals. Say them aloud.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Food modifications</div>Perm (more) · noy-noy (less) · my-sye (without). Combinations: extra chicken, less rice, no MSG.</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Chiang Mai dishes</div>Learn: kao-soy · sye-oo-a · kao-nee-ow. Order one Northern dish entirely in Thai this week.</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">Restaurant challenge</div>Order entirely in Thai — from sitting down to bill (gep-doo-ay na khâ). Do it.</div></div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 4</span> Market Thai</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Fruits & veg vocab</div>Learn the 6 items you buy most. Say them with Thai names throughout the day.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">Quantities</div>Nuhng-ki-lo · krueng-ki-lo · ow-nuhng-tung-na-khâ · nit-noy. Combine with item names.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Sweet & ripe questions</div>Waan-my khâ? · Sook-my khâ? Practice until it sounds confident — not hesitant.</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Gentle negotiating</div>Lote-nit-neung-dye-my khâ? Practice with a smile. The smile is part of the phrase.</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">Full market morning</div>Conduct your whole shop in Thai — from greeting to paying. Notice how people respond to the effort.</div></div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 5</span> Social & Everyday</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Addressing people</div>Pee · Nong · Khun. Start using these today with people you see regularly. Notice how it lands.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">Warmth phrases</div>A-roy-maak-loey · my-bpen-rye · kawp-khoon-maak na khâ. Use all three genuinely today.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Yes / No / Can / Can't</div>Châi (yes) · mâi châi (no) · dâi (can/okay) · mâi dâi (can't). These unlock most responses.</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Yoga teacher interaction</div>Practice: greeting Pee [name] with a wai, saying thank you, saying the class was wonderful (dii maak).</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">Best phrase</div>Say: "Gum-lung-ree-an-paa-saa-tie yoo khâ" (I'm learning Thai) to someone today. Watch the reaction.</div></div>
+    </div>
+  </div>
+
+  <div class="week-block">
+    <div class="week-header"><span class="week-badge">Week 6</span> Consolidate & Expand</div>
+    <div class="week-days">
+      <div class="day-row"><div class="day-name">Mon</div><div class="day-content"><div class="day-focus">Full review</div>Pick your 5 weakest phrases from weeks 1–5. Drill them aloud — not silently. Your mouth needs practice as much as your brain.</div></div>
+      <div class="day-row"><div class="day-name">Tue</div><div class="day-content"><div class="day-focus">Directions basics</div>Tâng nǎi? (which way?) · kâang nâa (in front) · kâang lǎng (behind). Useful for songthaew + Grab.</div></div>
+      <div class="day-row"><div class="day-name">Wed</div><div class="day-content"><div class="day-focus">Transport phrases</div>Jòt tîi nîi ná khâ (stop here please) · bpai [destination] (going to...). Essential for red songthaew.</div></div>
+      <div class="day-row"><div class="day-name">Thu</div><div class="day-content"><div class="day-focus">Your own sentences</div>Write 10 sentences about your daily Chiang Mai life using everything you've learned. Say them aloud.</div></div>
+      <div class="day-row"><div class="day-name">Fri</div><div class="day-content"><div class="day-focus">🌸 Celebrate</div>Go somewhere new in Chiang Mai and use everything. A new market, a café you haven't tried, a walk through the Old City. You've built a real foundation — notice how much more connected you feel to this place.</div></div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ====== RESOURCES ====== -->
+<section class="section" id="resources">
+  <div class="section-intro"><strong>You've already downloaded Memrise and Quizlet</strong> — here's exactly how to make them work for your specific situation, plus a few additions that fit a 15-minute-a-day learner living in Chiang Mai.</div>
+  <h2 class="section-title">Resources — Curated for You</h2>
+  <h3 class="sub-title">What You Have — How to Actually Use It</h3>
+
+  <div class="resource-card">
+    <div class="resource-type">✅ App you have</div>
+    <div class="resource-name">Memrise — Use it right</div>
+    <div class="resource-desc">Don't use the generic Thai beginner course — it teaches random vocabulary you won't use for months. Instead: search "Thai survival phrases" or "Thai food ordering" in Community Courses. Look for courses with audio recordings by native speakers — Memrise's real strength is audio + spaced repetition, which is exactly what you need for tones.</div>
+    <div class="resource-tip">→ Best use: 5 minutes before bed. Let it quiz you on the week's phrases. Always turn audio on and say each word aloud — don't just tap through.</div>
+  </div>
+
+  <div class="resource-card">
+    <div class="resource-type">✅ App you have</div>
+    <div class="resource-name">Quizlet — Build your own sets</div>
+    <div class="resource-desc">Quizlet is most powerful when you build your own sets from what you're actually learning. Each week, take phrases from this guide and create a set: English / Thai script / romanisation / pronunciation note. Use "Learn" mode, not just flashcards — it tests you multiple ways. You can also search for shared sets: "Thai market vocabulary" or "Thai café ordering."</div>
+    <div class="resource-tip">→ Best use: Build one set per week (takes 10 min). Test yourself on it for 5 min daily until it's automatic.</div>
+  </div>
+
+  <h3 class="sub-title">Add These to Your Toolkit</h3>
+
+  <div class="resource-card alt">
+    <div class="resource-type">🎧 Audio — Free</div>
+    <div class="resource-name">Pimsleur Thai — First 5 lessons free</div>
+    <div class="resource-desc">Audio-only method where you listen and repeat — perfect for tones because you're training your ear and mouth together. The first 5 lessons cover greetings, basic questions, and numbers. Do a lesson while walking to a café or market. 30 minutes per lesson but it doesn't feel long.</div>
+    <div class="resource-tip">→ Best for: your longer sessions (30+ min days). One lesson per week as a supplement to this guide.</div>
+  </div>
+
+  <div class="resource-card alt">
+    <div class="resource-type">📱 Tool — Free</div>
+    <div class="resource-name">Google Translate Camera Mode</div>
+    <div class="resource-desc">Point your phone at Thai menus, market signs, price boards. Not perfect but genuinely useful — and over time it helps your brain start recognising Thai script shapes. Save interesting words to your Quizlet set as you go. A habit worth building at every new restaurant or stall.</div>
+    <div class="resource-tip">→ Use every time you're somewhere new. It makes the language feel less foreign and more readable.</div>
+  </div>
+
+  <div class="resource-card alt">
+    <div class="resource-type">📺 YouTube — Free</div>
+    <div class="resource-name">"Learn Thai with Mod"</div>
+    <div class="resource-desc">Short 5–10 minute videos focused on specific situations — market shopping, ordering food, café visits. Native speaker who explains cultural context as well as the words. Far better than long generic courses. ThaiPod101 also has useful situational content — skip their long intros.</div>
+    <div class="resource-tip">→ Watch one video matching your current week's focus. Pause and repeat phrases aloud. Passive watching doesn't stick — active repetition does.</div>
+  </div>
+
+  <div class="resource-card alt2">
+    <div class="resource-type">🗣️ In Chiang Mai — Your fastest route</div>
+    <div class="resource-name">Language Exchange</div>
+    <div class="resource-desc">One hour per week of real conversation with a Thai person will accelerate you faster than any app. Look in Facebook groups: "Chiang Mai Language Exchange" and "Chiang Mai Expats & Locals." You help them with English; they help you with Thai. Your yoga studio, regular café, and market vendors are also natural practice partners — they love the effort and will remember you for it.</div>
+    <div class="resource-tip">→ Aim for one session per week from month 2 onwards. Even 30 minutes is transformative.</div>
+  </div>
+
+  <div class="resource-card alt2">
+    <div class="resource-type">📚 When you're ready to go further</div>
+    <div class="resource-name">AUA Language Centre, Chiang Mai</div>
+    <div class="resource-desc">One of Thailand's most respected language schools — right here in the city. They use an immersive method (ALG — Automatic Language Growth) where you absorb Thai naturally without direct translation. Excellent for auditory learners. Flexible short courses and drop-ins available.</div>
+    <div class="resource-tip">→ You don't need this yet. Bookmark it for month 2–3 when you want to go beyond survival phrases.</div>
+  </div>
+
+  <h3 class="sub-title">Your Daily 15-Minute Structure</h3>
+  <div class="pattern-box" style="margin: 0 16px;">
+    <div class="variation-list">
+      <div class="variation"><div class="variation-en" style="font-size:13.5px;"><strong>0–5 min · Review</strong><br>Say yesterday's phrases aloud — not silently. Your mouth needs the practice as much as your brain.</div></div>
+      <div class="variation"><div class="variation-en" style="font-size:13.5px;"><strong>5–12 min · New content</strong><br>Learn 3–5 phrases from this guide for the week. Read the pronunciation guide and say each one 3x out loud.</div></div>
+      <div class="variation"><div class="variation-en" style="font-size:13.5px;"><strong>12–15 min · App quiz</strong><br>Memrise or Quizlet — let it test you. Don't skip. This is what moves words from short-term to long-term memory.</div></div>
+    </div>
+    <div class="tip-box" style="margin-top:12px;border-left-color:var(--sage-deep);"><strong>The real secret:</strong> Use one new phrase in the real world every single day. Even just <em>kawp-khoon-maak na khâ</em> to someone who helped you. Real use beats 10x more app time — every time.</div>
+  </div>
+</section>
+
+<div class="footer">
+  <span class="thai-big">โชคดีนะคะ</span>
+  <div class="pronun-note">choke-dee-na-kaa · Good luck, Shana ✦</div>
+  <p style="margin-top:8px;font-size:12px;color:var(--stone-deep);">Chiang Mai awaits — one phrase at a time</p>
+</div>
+
+<script>
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const ids=['numbers','market','food','social','plan','resources'];
+  document.querySelectorAll('.nav-btn')[ids.indexOf(id)].classList.add('active');
+  window.scrollTo(0,0);
+}
+function toggleCard(card){card.classList.toggle('open');}
+</script>
+</body>
+</html>
